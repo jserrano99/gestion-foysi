@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} GESTIÓN DE CLIENTES 
+    {% if accion == 'I' %}
+        ** NUEVO CLIENTE **
+    {% else %}
+        MODIFICACION : {{cliente.apenom}}
+    {% endif %}
+    <hr/>
+    <a href="{{path("queryCliente")}}" class="btn btn-success">Volver</a>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        {{form_start (form,{'action':'','method':'POST'})}}
+        {{form_end (form)}}
+    </div>
+    <div class="clearfix"> </div>
+{% endblock %}

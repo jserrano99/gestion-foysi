@@ -1,0 +1,39 @@
+<div class="btn-group btn-group-justified" role="group" aria-label="...">  
+    <div class="btn-group">
+        <a class="btn btn-default btn-primary dropdown-toggle" href="{{path("app_homepage")}}">Inicio
+            <span class="glyphicon glyphicon-home"></span></a>
+    </div>                    
+    {% if app.user.perfil == 'ROLE_ADMIN' %}
+        {% include 'menuAdmin.html.twig' %}
+    {% endif %}
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle btn-success" 
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Gestión 
+            <span class="glyphicon glyphicon-search"></span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="{{path("queryCliente")}}">Clientes</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{{path("queryPedido")}}">Pedidos</a></li>
+            <li><a href="{{path("addPedido")}}">Nuevo Pedido</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{{path("queryFactura")}}">Facturas</a></li>
+            <li><a href="{{path("queryRecibo")}}">Recibos de Caja</a></li>
+            
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" 
+                class="btn btn-default dropdown-toggle btn-info" 
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sesión 
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="{{path("cambioPassword",{"id":app.user.id})}}">Cambio Password</a></li>
+            <li><a href="{{path("logout")}}">Salir</a></li>
+        </ul>
+    </div>
+
+</div>

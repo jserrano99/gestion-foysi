@@ -1,0 +1,57 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} GESTIÓN DE PROVEEDORES-CONSULTA{% endblock %}
+{% block contenido %}
+    <script>
+        function confirmar(id) {
+            bootbox.confirm("CONFIRMAR",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deleteProveedor", {"id":id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+    </script>
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+        <a href="{{path("addProveedor")}}" class="btn btn-success">Nuevo Proveedor</a>
+        <hr/>
+        <table class="tabla table" border="1">
+            <thead>
+                <tr class="success">
+                    <th class="text-center text-bold">ID</th>
+                    <th class="text-center text-bold">CIF</th>
+                    <th class="text-center text-bold">Nombre</th>
+                    <th class="text-center text-bold">Razón Social</th>
+                    <th class="text-center text-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedorAll %}
+                    <tr>
+                        <td class="text-center">{{proveedor.id}}</td>
+                        <td class="text-center">
+                            <a href="{{path("editProveedor",{ "id":proveedor.id })}}" >
+                                {{proveedor.cif}}</a></td>
+                        <td>{{proveedor.nombre}}</td>
+                        <td>{{proveedor.razonSocial}}</td>
+                        <td class="text-center">
+                            <button class="glyphicon glyphicon-trash"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Eliminar Proveedor"
+                                    onclick ="confirmar({{proveedor.id}})">
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

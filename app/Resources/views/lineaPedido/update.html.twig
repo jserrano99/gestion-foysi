@@ -1,0 +1,187 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} 
+    <script>
+
+        function imprimir(id) {
+            $('#procesando').modal('show');
+            recurso = Routing.generate("imprimirPedido", {"id": id}, true);
+            window.open(recurso);
+        }
+
+        function volver() {
+            recurso = Routing.generate("queryPedido", true);
+            window.location = recurso;
+        }
+
+    </script>
+    <div class="panel panel-success">
+        <div class="panel-heading" >Datos del Pedido</div>
+        <div class="panel-body">                
+            <table>
+                <td>
+                    <div class="panel panel-info ">
+                        <div class="panel-heading" >
+                            <h3 class="panel-title">Cliente</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title">{{pedido.cliente.nombreCompleto}}</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Fecha </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.fecha|date('d-m-Y')}}</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Total Servicios</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.totalServicio|number_format(2,'.',',')}} €</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Descuento</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.totalDescuento|number_format(2,'.',',')}} €</h3>
+                        </div>
+                    </div>
+                </td>
+
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Base Imponible </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.baseImponible|number_format(2,'.',',')}} €</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Cuota IVA </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.cuotaIVA|number_format(2,'.',',')}} €</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp </td>
+                <td>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Total</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="panel-title text-center">{{pedido.totalPedido|number_format(2,'.',',')}} €</h3>
+                        </div>
+                    </div>
+                </td>
+            </table>
+            <button class="glyphicon glyphicon-arrow-left"
+                    data-toggle="tooltip" 
+                    data-placement="bottom" 
+                    title="Volver a Consulta de  Pedido"
+                    onclick ="volver({{pedido.id}})">
+            </button>
+            <button class="glyphicon glyphicon-print"
+                    data-toggle="tooltip" 
+                    data-placement="bottom" 
+                    title="Imprimir Pedido"
+                    onclick ="imprimir({{pedido.id}})">
+            </button>
+        </div>
+
+    </div>
+{% endblock %}
+{% block formulario %}
+    <div class="container">
+        <div class="panel panel-success">
+            <div class="panel-heading" ><h3 class="panel-title">Incluir Servicio</h3></div>
+            <div class="panel-body">                
+                {{form_start (form,{'action':'','method':'POST'})}}
+                {{form_end (form)}}
+            </div>
+        </div>
+    </div>
+{% endblock%}    
+
+{% block contenido %}
+    <script>
+        function confirmar(id) {
+            bootbox.confirm("CONFIRMAR BORRADO",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deleteLineaPedido", {"id": id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+    </script>
+
+    <div class="container">
+        <table class="tabla table" border="1">
+            <thead>
+                <tr class="success">
+                    <th class="text-center text-bold">ID</th>
+                    <th class="text-center text-bold">Detalle Servicio </th>
+                    <th class="text-center text-bold">Importe Unitario</th>
+                    <th class="text-center text-bold">Unidades</th>
+                    <th class="text-center text-bold">Importe Servicio</th>
+                    <th class="text-center text-bold">Descuento</th>
+                    <th class="text-center text-bold">Base</th>
+                    <th class="text-center text-bold">Cuota IVA</th>
+                    <th class="text-center text-bold">Total</th>
+                    <th class="text-center text-bold"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for lineaPedido in lineaPedidoAll %}
+                    <tr>
+                        <td class="text-center">{{lineaPedido.id}}</a></td>
+                        <td class="text-left">
+                            {{lineaPedido.detalle}}
+                        </td>
+                        <td class="text-right">{{lineaPedido.importeUnitario|number_format(2,'.',',')}} €</td>
+                        <td class="text-right">{{lineaPedido.unidades}}</td>
+                        <td class="text-right">{{lineaPedido.totalServicio|number_format(2,'.',',')}} €</td>
+                        <td class="text-right">{{(lineaPedido.descuento)*-1|number_format(2,'.',',')}} €</td>
+                        <td class="text-right">{{lineaPedido.baseImponible|number_format(2,'.',',')}} €</td>
+                        <td class="text-right">{{lineaPedido.cuotaIVA|number_format(2,'.',',')}} €</td>
+                        <td class="text-right">{{lineaPedido.totalLinea|number_format(2,'.',',')}} €</td>
+                        <td class="text-center">
+                            <button class="glyphicon glyphicon-trash"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Eliminar Servicio"
+                                    onclick ="confirmar({{lineaPedido.id}})">
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="clearfix"> </div>
+{% endblock %}

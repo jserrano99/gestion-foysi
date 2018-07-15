@@ -1,0 +1,186 @@
+app_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:App:index}
+
+editAsignacionDirecta:
+    path:   /asignacionDirecta/edit/{id}
+    defaults: { _controller: AppBundle:AsignacionDirecta:edit}
+addAsignacionDirecta:
+    path:   /asignacionDirecta/add
+    defaults: { _controller: AppBundle:AsignacionDirecta:add}
+queryAsignacionDirecta:
+    path:   /asignacionDirecta/query
+    defaults: { _controller: AppBundle:AsignacionDirecta:query}
+
+queryExcepcion:
+    path:   /excepcion/query
+    defaults: { _controller: AppBundle:Excepcion:query}
+editExcepcion:
+    path:   /excepcion/edit/{id}
+    defaults: { _controller: AppBundle:Excepcion:edit}
+addExcepcion:
+    path:   /excepcion/add/
+    defaults: { _controller: AppBundle:Excepcion:add}
+
+login:
+    path: /login
+    defaults: { _controller: AppBundle:Usuario:login}
+login_check:
+    path: /login_check
+logout:
+    path: /logout
+
+cambioPassword:
+    path:   /usuario/cambioPassword/{id}
+    defaults: { _controller: AppBundle:Usuario:CambioPassword}
+queryUsuario:
+    path:   /usuario/query
+    defaults: { _controller: AppBundle:Usuario:query}
+addUsuario:
+    path:   /usuario/add
+    defaults: { _controller: AppBundle:Usuario:add}
+editUsuario:
+    path:   /usuario/edit/{id}
+    defaults: { _controller: AppBundle:Usuario:edit}
+deleteUsuario:
+    path:   /usuario/delete/{id} 
+    defaults: { _controller: AppBundle:Usuario:delete}
+
+
+queryCliente:
+    path:   /cliente/query
+    defaults: { _controller: AppBundle:Cliente:query}
+addCliente:
+    path:   /cliente/add
+    defaults: { _controller: AppBundle:Cliente:add}
+editCliente:
+    path:   /cliente/edit/{id}
+    defaults: { _controller: AppBundle:Cliente:edit}
+deleteCliente:
+    path:   /cliente/delete/{id} 
+    defaults: { _controller: AppBundle:Cliente:delete}
+    options:
+        expose: true
+        
+queryServicio:
+    path:   /servicio/query
+    defaults: { _controller: AppBundle:Servicio:query}
+addServicio:
+    path:   /servicio/add
+    defaults: { _controller: AppBundle:Servicio:add}
+editServicio:
+    path:   /servicio/edit/{id}
+    defaults: { _controller: AppBundle:Servicio:edit}
+deleteServicio:
+    path:   /servicio/delete/{id} 
+    defaults: { _controller: AppBundle:Servicio:delete}
+    options:
+        expose: true
+
+queryProveedor:
+    path:   /proveedor/query
+    defaults: { _controller: AppBundle:Proveedor:query}
+addProveedor:
+    path:   /proveedor/add
+    defaults: { _controller: AppBundle:Proveedor:add}
+editProveedor:
+    path:   /proveedor/edit/{id}
+    defaults: { _controller: AppBundle:Proveedor:edit}
+deleteProveedor:
+    path:   /proveedor/delete/{id} 
+    defaults: { _controller: AppBundle:Proveedor:delete}
+    options:
+        expose: true
+
+queryPedido:
+    path:   /pedido/query
+    defaults: { _controller: AppBundle:Pedido:query}
+    options:
+        expose: true
+verPedido:
+    path:   /pedido/ver/{id}
+    defaults: { _controller: AppBundle:Pedido:ver}
+    options:
+        expose: true
+
+addPedido:
+    path:   /pedido/add
+    defaults: { _controller: AppBundle:Pedido:add}
+editPedido:
+    path:   /pedido/edit/{id}
+    defaults: { _controller: AppBundle:Pedido:edit}
+deletePedido:
+    path:   /pedido/delete/{id} 
+    defaults: { _controller: AppBundle:Pedido:delete}
+    options:
+        expose: true
+imprimirPedido:
+    path:   /pedido/imprimir/{id} 
+    defaults: { _controller: AppBundle:Pedido:imprimir}
+    options:
+        expose: true
+recalculoPedido:
+    path:   /pedido/recalculo/{id} 
+    defaults: { _controller: AppBundle:Pedido:recalculo}
+    options:
+        expose: true
+
+deleteFactura:
+    path:   /factura/delete/{id}
+    defaults: { _controller: AppBundle:Factura:delete}
+    options:
+        expose: true
+queryFactura:
+    path:   /factura/query
+    defaults: { _controller: AppBundle:Factura:query}
+    options:
+        expose: true
+generarFactura:
+    path:   /factura/generar/{pedido_id}
+    defaults: { _controller: AppBundle:Factura:generar}
+    options:
+        expose: true
+imprimirFactura:
+    path:   /factura/imprimir/{id} 
+    defaults: { _controller: AppBundle:Factura:imprimir}
+    options:
+        expose: true
+
+addLineaPedido:
+    path:   /lineaPedido/add/{pedido_id}
+    defaults: { _controller: AppBundle:LineaPedido:add}
+    options:
+        expose: true
+
+deleteLineaPedido:
+    path:   /lineaPedido/delete/{id}
+    defaults: { _controller: AppBundle:LineaPedido:delete}
+    options:
+        expose: true
+
+
+deleteRecibo:
+    path:   /recibo/delete/{id}
+    defaults: { _controller: AppBundle:Recibo:delete}
+    options:
+        expose: true
+queryRecibo:
+    path:   /recibo/query
+    defaults: { _controller: AppBundle:Recibo:query}
+    options:
+        expose: true
+generarRecibo:
+    path:   /recibo/generar/{pedido_id}
+    defaults: { _controller: AppBundle:Recibo:generar}
+    options:
+        expose: true
+imprimirRecibo:
+    path:   /recibo/imprimir/{id} 
+    defaults: { _controller: AppBundle:Recibo:imprimir}
+    options:
+        expose: true
+exportarRecibo:
+    path:   /recibo/exportar/ 
+    defaults: { _controller: AppBundle:Recibo:exportar}
+    options:
+        expose: true

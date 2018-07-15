@@ -1,0 +1,13 @@
+{% extends "layout.html.twig" %} 
+{% block contenido %}
+    <div class="container jumbotron text-center">
+        <h1><span>{{titulo_app}}</span></h1>
+		<img src="{{asset('img/mamiya.gif')}}"></img>
+		<br/>
+		<br/>
+        {% if app.user == null %}
+            <a  class="btn btn-success btn-lg"  href="{{path("login")}}"> Entrar</a>
+        {% endif %}
+    </div>  
+{% endblock %}
+  

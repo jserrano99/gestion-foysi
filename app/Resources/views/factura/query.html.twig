@@ -1,0 +1,66 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %}<h3> GESTIÓN DE FACTURAS-CONSULTA </h3>{% endblock %}
+{% block contenido %}
+    <script>
+        function eliminarFactura(id) {
+            bootbox.confirm("CONFIRMAR LA ELIMINACIÓN DEL FACTURA",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deleteFactura", {"id": id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+
+        function imprimirFactura(id) {
+            recurso = Routing.generate("imprimirFactura", {"id": id}, true);
+            window.open(recurso);
+        }
+
+    </script>
+    <div class="container">
+        <table class="tabla table" border="1">
+            <thead>
+                <tr class="success">
+                    <th class="text-center text-bold">ID</th>
+                    <th class="text-center text-bold">Ejercicio</th>
+                    <th class="text-center text-bold">Número</th>
+                    <th class="text-center text-bold">Fecha</th>
+                    <th class="text-center text-bold">Cliente</th>
+                    <th class="text-center text-bold">Importe</th>
+                    <th class="text-center text-bold"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturaAll %}
+                    <tr>
+                        <td class="text-center">{{factura.id}}</td>
+                        <td class="text-center">{{factura.ejercicio}}</td>
+                        <td class="text-center">{{factura.numero}}</td>
+                        <td class="text-center">{{factura.fecha|date('d-m-Y')}}</td>
+                        <td class="text-left">{{factura.pedido.cliente.nombreCompleto}}</td>
+                        <td class="text-right">{{factura.pedido.totalPedido|number_format(2,'.',',')}} €</td>
+                        <td class="text-center">
+                            <button class="glyphicon glyphicon-print"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Imprimir Factura"
+                                    onclick ="imprimirFactura({{factura.id}})">
+                            </button>
+                            &nbsp
+                            <button class="glyphicon glyphicon-trash"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Eliminar Factura"
+                                    onclick ="eliminarFactura({{factura.id}})">
+                            </button>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

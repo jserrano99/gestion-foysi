@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="localhost" id="Project_48a6fa7" template="Default" database="MySql" >
+	<schema name="gestion-foysi" catalogname="gestion-foysi" >
+		<table name="clientes" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="nif" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="nombre" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="apellidos" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="domicilio" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="cdpostal" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="movil" type="varchar" length="9" decimal="0" jt="12" />
+			<column name="email" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_clientes" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="nif_uk" unique="UNIQUE" >
+				<column name="nif" />
+			</index>
+		</table>
+		<table name="conexion" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="usuario_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="fecha" type="datetime" length="19" decimal="0" jt="93" mandatory="y" />
+			<column name="IP" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_conexion" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_usuario" unique="NORMAL" >
+				<column name="usuario_id" />
+			</index>
+			<fk name="FK_847691C1DB38439E" to_schema="gestion-foysi" to_table="usuarios" >
+				<fk_column name="usuario_id" pk="id" />
+			</fk>
+		</table>
+		<table name="descuentos" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="porcentaje" type="double" jt="8" mandatory="y" />
+			<index name="pk_descuentos_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="estado_pedido" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_estado_pedido" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="estado_usuario" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_estado_usuario" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="facturas" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="fecha" type="datetime" length="19" decimal="0" jt="93" mandatory="y" />
+			<column name="observaciones" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="pedido_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="ejercicio" type="int" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="numero" type="int" length="10" decimal="0" jt="4" mandatory="y" />
+			<index name="pk_facturas" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="UNIQ_622B9C0F4854653A" unique="UNIQUE" >
+				<column name="pedido_id" />
+			</index>
+			<fk name="FK_622B9C0F4854653A" to_schema="gestion-foysi" to_table="pedidos" >
+				<fk_column name="pedido_id" pk="id" />
+			</fk>
+		</table>
+		<table name="lineas_pedido" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="pedido_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="sevicio_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="unidades" type="int" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="fechaSesion" type="datetime" length="19" decimal="0" jt="93" />
+			<column name="numeroFoto" type="varchar" length="50" decimal="0" jt="12" />
+			<column name="observaciones" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="importeUnitario" type="double" length="22" decimal="0" jt="8" />
+			<column name="baseImponible" type="double" length="22" decimal="0" jt="8" />
+			<column name="cuotaIVA" type="double" length="22" decimal="0" jt="8" />
+			<column name="totalLinea" type="double" length="22" decimal="0" jt="8" />
+			<column name="totalservicio" type="double" jt="8" />
+			<column name="descuento" type="double" jt="8" />
+			<index name="pk_lineas_pedido" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="IDX_D2DE2C134854653A" unique="NORMAL" >
+				<column name="pedido_id" />
+			</index>
+			<index name="IDX_D2DE2C137C169098" unique="NORMAL" >
+				<column name="sevicio_id" />
+			</index>
+			<fk name="FK_D2DE2C134854653A" to_schema="gestion-foysi" to_table="pedidos" delete_action="cascade" >
+				<fk_column name="pedido_id" pk="id" />
+			</fk>
+			<fk name="FK_D2DE2C137C169098" to_schema="gestion-foysi" to_table="servicios" >
+				<fk_column name="sevicio_id" pk="id" />
+			</fk>
+		</table>
+		<table name="pedidos" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="cliente_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="estado_pedido_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="fecha" type="datetime" length="19" decimal="0" jt="93" mandatory="y" />
+			<column name="observaciones" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="descuento_id" type="int" jt="4" />
+			<index name="pk_pedidos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="IDX_6716CCAA961E0D4C" unique="NORMAL" >
+				<column name="estado_pedido_id" />
+			</index>
+			<index name="IDX_6716CCAADE734E51" unique="NORMAL" >
+				<column name="cliente_id" />
+			</index>
+			<index name="idx_pedidos_descuento_id" unique="NORMAL" >
+				<column name="descuento_id" />
+			</index>
+			<fk name="FK_6716CCAADE734E51" to_schema="gestion-foysi" to_table="clientes" >
+				<fk_column name="cliente_id" pk="id" />
+			</fk>
+			<fk name="FK_6716CCAA961E0D4C" to_schema="gestion-foysi" to_table="estado_pedido" >
+				<fk_column name="estado_pedido_id" pk="id" />
+			</fk>
+			<fk name="fk_pedidos_descuentos" to_schema="gestion-foysi" to_table="descuentos" >
+				<fk_column name="descuento_id" pk="id" />
+			</fk>
+		</table>
+		<table name="proveedores" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="cif" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<column name="nombre" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="razonSocial" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="domicilio" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="cdpostal" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="movil" type="varchar" length="9" decimal="0" jt="12" />
+			<column name="email" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_proveedores" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="cif_uk" unique="UNIQUE" >
+				<column name="cif" />
+			</index>
+		</table>
+		<table name="recibos" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="pedido_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="fecha" type="datetime" length="19" decimal="0" jt="93" mandatory="y" />
+			<column name="observaciones" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="ejercicio" type="int" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="numero" type="int" length="10" decimal="0" jt="4" mandatory="y" />
+			<index name="pk_recibos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="UNIQ_46247D214854653A" unique="UNIQUE" >
+				<column name="pedido_id" />
+			</index>
+			<fk name="FK_46247D214854653A" to_schema="gestion-foysi" to_table="pedidos" >
+				<fk_column name="pedido_id" pk="id" />
+			</fk>
+		</table>
+		<table name="servicios" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="importeUnitario" type="double" length="22" decimal="0" jt="8" mandatory="y" />
+			<column name="importeIVA" type="double" length="22" decimal="0" jt="8" mandatory="y" />
+			<column name="cuotaIVA" type="double" length="22" decimal="0" jt="8" mandatory="y" />
+			<index name="pk_servicios" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="usuarios" >
+			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="estado_usuario_id" type="int" length="10" decimal="0" jt="4" />
+			<column name="codigo" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="nombre" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="apellidos" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="perfil" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="email" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="password" type="varchar" length="255" decimal="0" jt="12" />
+			<index name="pk_usuarios" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="IDX_EF687F26280DDFF" unique="NORMAL" >
+				<column name="estado_usuario_id" />
+			</index>
+			<fk name="FK_EF687F26280DDFF" to_schema="gestion-foysi" to_table="estado_usuario" >
+				<fk_column name="estado_usuario_id" pk="id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="foysi-server" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.44-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="gestion-foysi" user="root" sshEnable="true" sshHost="82.223.16.102" sshPort="22" sshUser="root" sshUseKey="false" sshPassword="Su4Fd8qwr8" sshPublicKey="" sshPassphrase="" />
+	<layout name="Default Layout" id="Layout_275af2d" show_relation="columns" >
+		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="765" y="45" />
+		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="405" y="45" />
+		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="165" y="45" />
+		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="990" y="60" />
+		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="945" y="270" />
+		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="705" y="240" />
+		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="825" y="450" />
+		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="360" y="540" />
+		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="45" y="480" />
+		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="270" y="255" />
+		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="465" y="270" />
+		<entity schema="gestion-foysi" name="descuentos" color="c1d8ee" x="75" y="330" />
+		<browser id="Browse_1f34120" name="descuentos" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="descuentos" x="20" y="20" width="408" height="314" />
+		</browser>
+		<browser id="Browse_4d00ab3" name="pedidos" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="pedidos" x="20" y="20" width="774" height="317" />
+		</browser>
+	</layout>
+	<layout name="Sample Layout with Tools" id="Layout_37cad0e" show_column_type="y" show_relation="columns" >
+		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="285" y="450" />
+		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="1230" y="300" />
+		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="60" y="450" />
+		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="1230" y="75" />
+		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="45" y="255" />
+		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="525" y="270" />
+		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="285" y="270" />
+		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="1020" y="720" />
+		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="285" y="75" />
+		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="765" y="270" />
+		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="1020" y="75" />
+		<callout x="285" y="195" pointer="NO" >
+			<comment><![CDATA[Double-click any table, column or foreign key to edit, right-click to start one of the tools below.
+Use the Relational Data Browse for simultaneously exploring data from multiple tables.
+All tools will be saved to project file and can be reopen.]]></comment>
+		</callout>
+		<group name="pedidos" color="ecf0f7" >
+			<entity schema="gestion-foysi" name="pedidos" />
+			<entity schema="gestion-foysi" name="lineas_pedido" />
+			<entity schema="gestion-foysi" name="clientes" />
+			<entity schema="gestion-foysi" name="estado_pedido" />
+			<entity schema="gestion-foysi" name="facturas" />
+			<entity schema="gestion-foysi" name="recibos" />
+			<entity schema="gestion-foysi" name="servicios" />
+		</group>
+		<group name="usuarios" color="eef7ec" >
+			<entity schema="gestion-foysi" name="usuarios" />
+			<entity schema="gestion-foysi" name="estado_usuario" />
+			<entity schema="gestion-foysi" name="conexion" />
+		</group>
+		<script name="Sample SQL Editor" id="Editor_5887f6a" language="SQL" >
+			<string><![CDATA[SELECT * 
+FROM
+	`gestion-foysi`.pedidos s;]]></string>
+		</script>
+		<browser id="Browse_243143f" name="Sample Relational Data Browse" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="pedidos" x="20" y="20" width="400" height="300" >
+				<browse_table schema="gestion-foysi" entity="recibos" fk="FK_46247D214854653A" x="440" y="20" width="400" height="300" />
+			</browse_table>
+		</browser>
+		<query id="Query_3d24c43" name="Sample Query Builder" >
+			<query_table schema="gestion-foysi" name="pedidos" alias="p" x="45" y="45" >
+				<column name="id" />
+				<column name="cliente_id" />
+				<column name="estado_pedido_id" />
+				<column name="fecha" />
+				<column name="observaciones" />
+				<query_table schema="gestion-foysi" name="recibos" alias="r" x="225" y="45" fk="FK_46247D214854653A" type="Inner Join" >
+					<column name="id" />
+					<column name="pedido_id" />
+					<column name="fecha" />
+					<column name="observaciones" />
+					<column name="ejercicio" />
+					<column name="numero" />
+				</query_table>
+			</query_table>
+		</query>
+	</layout>
+</project>

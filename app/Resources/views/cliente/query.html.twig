@@ -1,0 +1,57 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} GESTIÓN DE CLIENTES-CONSULTA{% endblock %}
+{% block contenido %}
+    <script>
+        function confirmar(id) {
+            bootbox.confirm("CONFIRMAR",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deleteCliente", {"id":id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+    </script>
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+        <a href="{{path("addCliente")}}" class="btn btn-success">Nuevo cliente</a>
+        <hr/>
+        <table class="tabla table" border="1">
+            <thead>
+                <tr class="success">
+                    <th class="text-center text-bold">ID</th>
+                    <th class="text-center text-bold">NIF</th>
+                    <th class="text-center text-bold">Nombre</th>
+                    <th class="text-center text-bold">Apellidos</th>
+                    <th class="text-center text-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clienteAll %}
+                    <tr>
+                        <td class="text-center">{{cliente.id}}</td>
+                        <td class="text-center">
+                            <a href="{{path("editCliente",{ "id":cliente.id })}}" >
+                                {{cliente.nif}}</a></td>
+                        <td>{{cliente.nombre}}</td>
+                        <td>{{cliente.apellidos}}</td>
+                        <td class="text-center">
+                            <button class="glyphicon glyphicon-trash"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Eliminar Cliente"
+                                    onclick ="confirmar({{cliente.id}})">
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

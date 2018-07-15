@@ -1,0 +1,41 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} <h3>GESTIÓN DE PEDIDOS </h3>
+    <br/>
+    <a href="{{path("queryPedido")}}" class="btn btn-success">Volver</a>
+    <button type="button" class="btn btn-default dropdown-toggle btn-success" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+            onclick = "recalcularPedido({{pedido.id}})"> Recalcular Importes 
+        <span class="glyphicon glyphicon-euro"></span>
+    </button>
+
+
+{% endblock %}
+
+{% block contenido %}
+    <script>
+        function recalcularPedido(id) {
+            bootbox.confirm("CONFIRMAR RECALULO DE IMPORTES DEL PEDIDO",
+                    function (result) {
+                        if (result) {
+                            recurso = Routing.generate("recalculoPedido", {"id": id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+
+    </script>
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        {{form_start (form,{'action':'','method':'POST'})}}
+        {{form_end (form)}}
+    </div>
+
+    <div class="clearfix"> </div>
+{% endblock %}

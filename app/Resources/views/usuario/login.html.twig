@@ -1,0 +1,30 @@
+{% extends "layout.html.twig" %}
+{% block contenido %}
+    {%if app.user != null %}
+        <div class="container jumbotron text-center">
+            <h2><span>{{titulo_app}}</span></h2>
+            <h4><span>Ultima Conexión: {{Conexion.fecha |date('d-m-Y H:i:s')}}</span></h4>
+        </div>
+    {% else %}
+        <div class="container">
+            {% for message in app.session.flashbag().get('status') %}
+                <div class="alert alert-success">
+                    {{message}}
+                </div>
+            {% endfor %}
+            <h2>Identificación</h2><hr/>
+            <form class="col-xs-4" action="{{path("login_check")}}" method="post">
+                <label>Usuario</label>
+                <input type="text" id="username" name="_username" value="{{last_username}}" class="form-control">
+                <br/>
+                <label>Contraseña</label>
+                <input type="password" id="password" name="_password" class="form-control" />
+                <br/>
+                <input type="submit" value="Entrar" class="btn btn-success"/>
+                <input type="hidden" name="_target_path" value="/login" />
+                <br/>
+            </form>
+        </div>
+    {% endif %}        
+    <div class="clearfix"> </div>
+{% endblock %}

@@ -1,0 +1,4 @@
+services:
+    app.escribelog:
+        class: AppBundle\Servicios\EscribeLog
+        arguments: ["logger","mensaje"]

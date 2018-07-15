@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} GESTIÓN DE PROVEEDORES 
+    {% if accion == 'I' %}
+        ** NUEVO PROVEEDOR **
+    {% else %}
+        MODIFICACION : {{proveedor.razonSocial}}
+    {% endif %}
+    <hr/>
+    <a href="{{path("queryProveedor")}}" class="btn btn-success">Volver</a>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        {{form_start (form,{'action':'','method':'POST'})}}
+        {{form_end (form)}}
+    </div>
+    <div class="clearfix"> </div>
+{% endblock %}
