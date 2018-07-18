@@ -1,16 +1,17 @@
 {% extends "layout.html.twig" %} 
-{% block titulo %} PEDIDOS **CONSULTA** 
-    <a href="{{path('addPedido')}}" class="btn btn-success">
-        <span class="glyphicon glyphicon-new-window"></span> Nuevo Pedido</a>
+{% block titulo %} CLIENTES **{{accion}}**
+    <a href="{{path("queryCliente")}}" class="btn btn-success"> 
+        <span class="glyphicon glyphicon-th-list"></span>  Volver</a>
     {% endblock %}
-    {% block contenido %}
+
+{% block contenido %}
     <div class="container">
         {% for message in app.session.flashbag().get('status') %}
             <div class="alert alert-success">
                 {{message}}
             </div>
         {% endfor %}
-
-        {{ sg_datatables_render(datatable) }}
     </div>
+    {% include 'cliente/form.html.twig' %}
+
 {% endblock %}

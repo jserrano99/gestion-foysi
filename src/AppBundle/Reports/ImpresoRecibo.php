@@ -56,7 +56,7 @@ class ImpresoRecibo extends Fpdi {
         $this->Cell(20, 4, ' ', 0, 0, 'L');
         $this->Cell(20, 4, utf8_decode('Número : '), 0, 0, 'L');
         $this->SetFont('arial', '', 10);
-        $this->Cell(100, 4, utf8_decode($this->recibo->getNumero() . '/' . $this->recibo->getEjercicio()), 0, 0, 'L');
+        $this->Cell(100, 4, utf8_decode($this->recibo->getNumero() . '/' . $this->recibo->getEjercicio()->getAnyo()), 0, 0, 'L');
         $this->Ln();
 
         $this->SetFont('arial', 'B', 10);

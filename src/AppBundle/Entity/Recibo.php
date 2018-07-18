@@ -43,9 +43,12 @@ class Recibo {
     private $observaciones;
 
     /**
-     * @var integer
-     * 
-     * @ORM\Column(name="ejercicio", type="integer", nullable=false)     
+     * @var Ejercicio
+     *
+     * @ORM\ManyToOne(targetEntity="Ejercicio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ejercicio_id", referencedColumnName="id")
+     * }) 
      */
     private $ejercicio;
 
@@ -131,28 +134,6 @@ class Recibo {
         return $this->pedido;
     }
 
-    /**
-     * Set ejercicio
-     *
-     * @param integer $ejercicio
-     *
-     * @return Recibo
-     */
-    public function setEjercicio($ejercicio) {
-        $this->ejercicio = $ejercicio;
-
-        return $this;
-    }
-
-    /**
-     * Get ejercicio
-     *
-     * @return integer
-     */
-    public function getEjercicio() {
-        return $this->ejercicio;
-    }
-
 
     /**
      * Set numero
@@ -176,5 +157,29 @@ class Recibo {
     public function getNumero()
     {
         return $this->numero;
+    }
+
+    /**
+     * Set ejercicio.
+     *
+     * @param \AppBundle\Entity\Ejercicio|null $ejercicio
+     *
+     * @return Recibo
+     */
+    public function setEjercicio(\AppBundle\Entity\Ejercicio $ejercicio = null)
+    {
+        $this->ejercicio = $ejercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get ejercicio.
+     *
+     * @return \AppBundle\Entity\Ejercicio|null
+     */
+    public function getEjercicio()
+    {
+        return $this->ejercicio;
     }
 }

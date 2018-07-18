@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Cliente;
 use AppBundle\Form\ClienteType;
 
-
 class ClienteController extends Controller {
 
     private $sesion;
@@ -39,13 +38,24 @@ class ClienteController extends Controller {
         return true;
     }
 
-    public function queryAction() {
-        $EM = $this->getDoctrine()->getManager();
-        $Cliente_repo = $EM->getRepository("AppBundle:Cliente");
-        $ClienteAll = $Cliente_repo->findAll();
+    public function queryAction(Request $request) {
+        $isAjax = $request->isXmlHttpRequest();
 
-        $params = array("clienteAll" => $ClienteAll);
-        return $this->render("cliente/query.html.twig", $params);
+        $datatable = $this->get('sg_datatables.factory')->create(\AppBundle\Datatables\ClienteDatatable::class);
+        $datatable->buildDatatable();
+
+        if ($isAjax) {
+            $responseService = $this->get('sg_datatables.response');
+            $responseService->setDatatable($datatable);
+            $datatableQueryBuilder = $responseService->getDatatableQueryBuilder();
+            $datatableQueryBuilder->buildQuery();
+
+            return $responseService->getResponse();
+        }
+
+        return $this->render('cliente/query.html.twig', array(
+                    'datatable' => $datatable,
+        ));
     }
 
     public function addAction(Request $request) {
@@ -61,10 +71,10 @@ class ClienteController extends Controller {
                     $EM->flush();
                     $status = "Cliente creado correctamente";
                     $this->sesion->getFlashBag()->add("status", $status);
-                } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex ){
+                } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
                     $status = " YA EXISTE UN CLIENTE CON ESTE NIF ";
                     $this->sesion->getFlashBag()->add("status", $status);
-                } catch (\Doctrine\DBAL\DBALException $ex){
+                } catch (\Doctrine\DBAL\DBALException $ex) {
                     $status = $ex->getMessage();
                     $this->sesion->getFlashBag()->add("status", $status);
                 }
@@ -72,10 +82,10 @@ class ClienteController extends Controller {
             }
         }
 
-        $params = array("accion" => "I",
+        $params = array("accion" => "NUEVO",
             "cliente" => $Cliente,
             "form" => $form->createView());
-        return $this->render("cliente/update.html.twig", $params);
+        return $this->render("cliente/edit.html.twig", $params);
     }
 
     public function editAction(Request $request, $id) {
@@ -96,10 +106,10 @@ class ClienteController extends Controller {
             }
         }
 
-        $params = array("accion" => "U",
+        $params = array("accion" => "MODIFICACIÓN",
             "cliente" => $Cliente,
             "form" => $form->createView());
-        return $this->render("cliente/update.html.twig", $params);
+        return $this->render("cliente/edit.html.twig", $params);
     }
 
     public function deleteAction($id) {

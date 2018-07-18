@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class FiltroFechaType extends AbstractType {
 
@@ -18,12 +19,26 @@ class FiltroFechaType extends AbstractType {
                     "label" => 'Rango de Fechas',
                     "required" => false,
                     "attr" => array("class" => "corto form-control")))
-                ->add('starDate')
-				->add('endDate')
+                ->add('startDate')
+                ->add('endDate')
+                ->add('ejercicio', EntityType::class, array(
+                    'label' => 'Ejercicio',
+                    'class' => 'AppBundle:Ejercicio',
+                    'required' => false,
+                    'placeholder' => 'Seleccione Ejercicio ....',
+                    'attr' => array("class" => "medio form-control")))
+                ->add('trimestre', EntityType::class, array(
+                    'label' => 'Trimestre',
+                    'class' => 'AppBundle:Trimestre',
+                    'required' => false,
+                    'placeholder' => 'Seleccione Trimestre ....',
+                    'attr' => array("class" => "medio form-control")))
+                
                 ->add('Guardar', SubmitType::class, array(
                     "attr" => array("class" => "form-submit btn btn-t btn-success")))
         ;
     }
+
     /**
      * {@inheritdoc}
      */

@@ -22,7 +22,7 @@ class Pedido {
     private $id;
 
     /**
-     * @var Cliente|null
+     * @var Cliente
      *
      * @ORM\ManyToOne(targetEntity="Cliente")
      * @ORM\JoinColumns({

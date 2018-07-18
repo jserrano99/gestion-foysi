@@ -36,11 +36,11 @@ class PedidoType extends AbstractType {
                     'label' => 'Nombre y Apellidos',
                     'required' => false,
                     'mapped' => false,
-                    'attr' => array("class" => "medio form-control")))
+                    'attr' => array('maxlength' => 255,"class" => "medio form-control")))
                 ->add('observaciones', TextType::class, array(
                     'label' => 'Observaciones',
                     'required' => false,
-                    'attr' => array("class" => "form-control")))
+                    'attr' => array('maxlength' => 255,"class" => "form-control")))
                 ->add('estadoPedido', EntityType::class, array(
                     'label' => 'Estado',
                     'class' => 'AppBundle:EstadoPedido',

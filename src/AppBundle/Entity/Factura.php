@@ -43,9 +43,12 @@ class Factura {
     private $observaciones;
 
     /**
-     * @var integer
-     * 
-     * @ORM\Column(name="ejercicio", type="integer", nullable=false)     
+     * @var Ejercicio
+     *
+     * @ORM\ManyToOne(targetEntity="Ejercicio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ejercicio_id", referencedColumnName="id")
+     * }) 
      */
     private $ejercicio;
 
@@ -131,29 +134,7 @@ class Factura {
         return $this->pedido;
     }
 
-    /**
-     * Set ejercicio
-     *
-     * @param integer $ejercicio
-     *
-     * @return Factura
-     */
-    public function setEjercicio($ejercicio) {
-        $this->ejercicio = $ejercicio;
-
-        return $this;
-    }
-
-    /**
-     * Get ejercicio
-     *
-     * @return integer
-     */
-    public function getEjercicio() {
-        return $this->ejercicio;
-    }
-
-
+   
     /**
      * Set numero
      *
@@ -161,8 +142,7 @@ class Factura {
      *
      * @return Factura
      */
-    public function setNumero($numero)
-    {
+    public function setNumero($numero) {
         $this->numero = $numero;
 
         return $this;
@@ -173,8 +153,32 @@ class Factura {
      *
      * @return integer
      */
-    public function getNumero()
-    {
+    public function getNumero() {
         return $this->numero;
+    }
+
+
+    /**
+     * Set ejercicio.
+     *
+     * @param \AppBundle\Entity\Ejercicio|null $ejercicio
+     *
+     * @return Factura
+     */
+    public function setEjercicio(\AppBundle\Entity\Ejercicio $ejercicio = null)
+    {
+        $this->ejercicio = $ejercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get ejercicio.
+     *
+     * @return \AppBundle\Entity\Ejercicio|null
+     */
+    public function getEjercicio()
+    {
+        return $this->ejercicio;
     }
 }

@@ -1,0 +1,49 @@
+<script>
+    $(document).ready(function () {
+
+        $('#appbundle_cliente_Guardar').click(function () {
+            var apenom = $('#appbundle_cliente_apellidos').val() + ', ' + $('#appbundle_cliente_nombre').val();
+            var nombreCompleto = $('#appbundle_cliente_nombre').val() + ' '+ $('#appbundle_cliente_apellidos').val();
+            $('#appbundle_cliente_apenom').val(apenom);
+            $('#appbundle_cliente_nombreCompleto').val(nombreCompleto);
+        });
+
+    });
+
+
+</script>
+
+<div class="container">
+    {{form_start (form,{'action':'','method':'POST'})}}
+    {{form_errors(form)}}
+    <div class="form_row" >
+        {{form_row(form.nif)}}
+    </div>
+    <div class="clear-fix"></div>
+    <div class="form-row mismalinea" >
+        {{form_row(form.nombre)}}
+    </div>
+
+    <div class="form-row mismalinea" >
+        {{form_row(form.apellidos)}}
+    </div>
+    <div class="form-row mismalinea " >
+        {{form_row(form.domicilio)}}
+    </div>
+    <div class="form-row mismalinea" >
+        {{form_row(form.cdpostal)}}
+    </div>
+    <div class="clear-fix"></div>
+    <div class="form-row mismalinea" >
+        {{form_row(form.movil)}}
+    </div>
+    <div class="form-row mismalinea" >
+        {{form_row(form.email)}}
+    </div>
+
+    <div class="form-row" >
+        {{ form_row(form.Guardar)}}
+        {{ form_end(form) }}
+    </div>
+
+</div>

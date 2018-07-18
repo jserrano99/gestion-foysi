@@ -43,6 +43,8 @@ class ClienteType extends AbstractType {
                     "label" => 'Correo Electrónico',
                     "required" => true,
                     "attr" => array("class" => " corto form-control")))
+                ->add('apenom')
+                ->add('nombreCompleto')
                 ->add('Guardar', SubmitType::class, array(
                     "attr" => array("class" => "form-submit btn btn-t btn-success")))
         ;
