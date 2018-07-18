@@ -26,20 +26,14 @@ class UsuarioController extends Controller {
         $authenticationUtils = $this->get("security.authentication_utils");
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        $ServicioLog = $this->get('app.escribelog');
-        $ServicioLog->setLogger('Acceso');
         $ultimaConexion = null;
         $Usuario = null;
         if ($error) {
             $this->sesion->getFlashBag()->add("status", "Usuario " . " " . $lastUsername . " no autorizado, revise la contraseña");
-            $ServicioLog->setMensaje('Error en Inicio de Sesión: ' . $lastUsername . ' ' . $error);
-            $ServicioLog->escribeLog();
         } else {
             $Usuario = $this->getUser();
             if ($Usuario) {
                 $ultimaConexion = $this->logConexion($Usuario);
-                $ServicioLog->setMensaje('Inicio de Sesión: ' . $Usuario);
-                $ServicioLog->escribeLog();
                 if ($Usuario->getEstadoUsuario()->getId() == 2) {
                     return $this->render("usuario/bloqueado.html.twig");
                 }

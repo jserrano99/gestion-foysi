@@ -70,7 +70,7 @@ class PedidoController extends Controller {
             }
         }
 
-        $params = array("accion" => "I",
+        $params = array("accion" => "NUEVO",
             "form" => $form->createView(),
             "pedido" => $Pedido);
         return $this->render("pedido/update.html.twig", $params);
@@ -100,7 +100,7 @@ class PedidoController extends Controller {
             return $this->redirectToRoute("recalculoPedido", $params);
         }
 
-        $params = array("accion" => "U",
+        $params = array("accion" => "MODIFICACIÓN",
             "form" => $form->createView(),
             "pedido" => $Pedido);
         return $this->render("pedido/update.html.twig", $params);

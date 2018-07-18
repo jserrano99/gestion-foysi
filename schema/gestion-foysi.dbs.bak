@@ -261,10 +261,13 @@
 		<entity schema="foysi" name="servicios" color="c1d8ee" x="1065" y="390" />
 		<entity schema="foysi" name="clientes" color="c1d8ee" x="675" y="570" />
 		<entity schema="foysi" name="recibos" color="c1d8ee" x="450" y="510" />
-		<entity schema="foysi" name="ejercicios" color="c1d8ee" x="270" y="405" />
 		<entity schema="foysi" name="proveedores" color="c1d8ee" x="1005" y="45" />
-		<entity schema="foysi" name="trimestres" color="c1d8ee" x="285" y="630" />
 		<entity schema="foysi" name="ejercicio_actual" color="c1d8ee" x="135" y="645" />
+		<entity schema="foysi" name="trimestres" color="c1d8ee" x="285" y="630" />
+		<entity schema="foysi" name="ejercicios" color="c1d8ee" x="270" y="405" />
+		<browser id="Browse_5eee41" name="ejercicios" confirm_updates="y" >
+			<browse_table schema="foysi" entity="ejercicios" x="20" y="20" width="400" height="300" />
+		</browser>
 	</layout>
 	<layout name="Sample Layout with Tools" id="Layout_37cad0e" show_column_type="y" show_relation="columns" >
 		<callout x="45" y="45" pointer="NO" >
