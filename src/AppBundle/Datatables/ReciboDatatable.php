@@ -6,8 +6,6 @@ use Sg\DatatablesBundle\Datatable\AbstractDatatable;
 use Sg\DatatablesBundle\Datatable\Style;
 use Sg\DatatablesBundle\Datatable\Column\Column;
 use Sg\DatatablesBundle\Datatable\Column\ActionColumn;
-use Sg\DatatablesBundle\Datatable\Filter\SelectFilter;
-use Symfony\Component\Intl\NumberFormatter\NumberFormatter;
 use Sg\DatatablesBundle\Datatable\Column\DateTimeColumn;
 use Sg\DatatablesBundle\Datatable\Filter\DateRangeFilter;
 
@@ -45,9 +43,12 @@ class ReciboDatatable extends AbstractDatatable {
 				->add('id', Column::class, array('title' => 'Id', 'width' => '20px', 'searchable' => false))
 				->add('ejercicio', Column::class, array('title' => 'Ejercicio', 'width' => '80px', 'searchable' => true))
 				->add('numero', Column::class, array('title' => 'Número', 'width' => '40px', 'searchable' => true))
-				->add('fecha', DateTimeColumn::class, array('title' => 'Fecha Recibo','width' => '90px',
+				->add('fecha', DateTimeColumn::class, array('title' => 'Fecha Recibo', 'width' => '190px',
 					'default_content' => 'No value',
-					'date_format' => 'DD/MM/YYYY'
+					'date_format' => 'DD/MM/YYYY',
+					'filter' => array(DateRangeFilter::class, array(
+							'cancel_button' => false,
+						)),
 				))
 				->add('pedido.observaciones', Column::class, array('title' => 'Descripción', 'width' => '400px', 'searchable' => true))
 				->add(null, ActionColumn::class, array(

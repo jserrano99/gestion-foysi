@@ -1,0 +1,36 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %}GESTIÓN DE RECIBOS **EXPORTAR EXCEL** 
+	<a href="{{path("queryRecibo")}}" class="btn btn-success"
+	   <span class="glyphicon glyphicon-th-list"></span> Volver </a>
+{%endblock%}
+
+{% block contenido %}
+	<script>
+		$(document).ready(function () {
+
+			$('#appbundle_filtroFecha_rangoFecha').daterangepicker({
+				'locale': {'format': 'DD/MM/YYYY',
+					'applyLabel': 'Aplicar',
+					'cancelLabel': 'Cancelar'
+				}
+			});
+
+			$('#appbundle_filtroFecha_rangoFecha').on('apply.daterangepicker', function (ev, picker) {
+				$('#appbundle_filtroFecha_starDate').val(picker.startDate.format('DD/MM/YYYY'));
+				$('#appbundle_filtroFecha_endDate').val(picker.endDate.format('DD/MM/YYYY'));
+
+			});
+
+		});
+
+
+	</script>
+
+
+	<div class="container">
+        {{form_start (form,{'action':'','method':'POST'})}}
+        {{form_end (form)}}
+    </div>
+
+
+{% endblock %}

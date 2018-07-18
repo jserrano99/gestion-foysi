@@ -33,6 +33,15 @@
 				<fk_column name="usuario_id" pk="id" />
 			</fk>
 		</table>
+		<table name="descuentos" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="descripcion" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="porcentaje" type="double" jt="8" mandatory="y" />
+			<index name="pk_descuentos_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
 		<table name="estado_pedido" >
 			<column name="id" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
 			<column name="descripcion" type="varchar" length="255" decimal="0" jt="12" />
@@ -76,6 +85,8 @@
 			<column name="baseImponible" type="double" length="22" decimal="0" jt="8" />
 			<column name="cuotaIVA" type="double" length="22" decimal="0" jt="8" />
 			<column name="totalLinea" type="double" length="22" decimal="0" jt="8" />
+			<column name="totalservicio" type="double" jt="8" />
+			<column name="descuento" type="double" jt="8" />
 			<index name="pk_lineas_pedido" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -85,7 +96,7 @@
 			<index name="IDX_D2DE2C137C169098" unique="NORMAL" >
 				<column name="sevicio_id" />
 			</index>
-			<fk name="FK_D2DE2C134854653A" to_schema="gestion-foysi" to_table="pedidos" >
+			<fk name="FK_D2DE2C134854653A" to_schema="gestion-foysi" to_table="pedidos" delete_action="cascade" >
 				<fk_column name="pedido_id" pk="id" />
 			</fk>
 			<fk name="FK_D2DE2C137C169098" to_schema="gestion-foysi" to_table="servicios" >
@@ -98,6 +109,7 @@
 			<column name="estado_pedido_id" type="int" length="10" decimal="0" jt="4" />
 			<column name="fecha" type="datetime" length="19" decimal="0" jt="93" mandatory="y" />
 			<column name="observaciones" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="descuento_id" type="int" jt="4" />
 			<index name="pk_pedidos" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -107,11 +119,17 @@
 			<index name="IDX_6716CCAADE734E51" unique="NORMAL" >
 				<column name="cliente_id" />
 			</index>
+			<index name="idx_pedidos_descuento_id" unique="NORMAL" >
+				<column name="descuento_id" />
+			</index>
 			<fk name="FK_6716CCAADE734E51" to_schema="gestion-foysi" to_table="clientes" >
 				<fk_column name="cliente_id" pk="id" />
 			</fk>
 			<fk name="FK_6716CCAA961E0D4C" to_schema="gestion-foysi" to_table="estado_pedido" >
 				<fk_column name="estado_pedido_id" pk="id" />
+			</fk>
+			<fk name="fk_pedidos_descuentos" to_schema="gestion-foysi" to_table="descuentos" >
+				<fk_column name="descuento_id" pk="id" />
 			</fk>
 		</table>
 		<table name="proveedores" >
@@ -177,19 +195,26 @@
 			</fk>
 		</table>
 	</schema>
-	<connector name="localhost" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.40-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="gestion-foysi" user="root" />
+	<connector name="foysi-server" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.44-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="gestion-foysi" user="root" sshEnable="true" sshHost="82.223.16.102" sshPort="22" sshUser="root" sshUseKey="false" sshPassword="Su4Fd8qwr8" sshPublicKey="" sshPassphrase="" />
 	<layout name="Default Layout" id="Layout_275af2d" show_relation="columns" >
-		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="930" y="270" />
-		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="930" y="45" />
-		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="750" y="45" />
-		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="720" y="375" />
+		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="765" y="45" />
+		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="405" y="45" />
+		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="165" y="45" />
+		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="990" y="60" />
+		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="945" y="270" />
+		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="705" y="240" />
+		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="825" y="450" />
+		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="360" y="540" />
 		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="45" y="480" />
-		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="270" y="480" />
-		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="615" y="240" />
-		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="450" y="270" />
-		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="255" y="255" />
-		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="390" y="45" />
-		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="150" y="45" />
+		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="270" y="255" />
+		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="465" y="270" />
+		<entity schema="gestion-foysi" name="descuentos" color="c1d8ee" x="75" y="330" />
+		<browser id="Browse_1f34120" name="descuentos" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="descuentos" x="20" y="20" width="408" height="314" />
+		</browser>
+		<browser id="Browse_4d00ab3" name="pedidos" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="pedidos" x="20" y="20" width="774" height="317" />
+		</browser>
 	</layout>
 	<layout name="Sample Layout with Tools" id="Layout_37cad0e" show_column_type="y" show_relation="columns" >
 		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="285" y="450" />

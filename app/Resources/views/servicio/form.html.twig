@@ -1,0 +1,55 @@
+<script>
+	$(document).ready(function () {
+		$('#appbundle_servicio_importeUnitario').change(function () {
+			cambiaImporte();
+		});
+		$('#appbundle_servicio_porcentajeIVA').change(function () {
+			cambiaImporte();
+		});
+
+		$('#appbundle_servicio_Guardar').click(function () {
+		});
+
+	});
+
+	function cambiaImporte() {
+
+		var importe = 0.0;
+		var porcentaje = 0.0;
+		var cuotaIVA = 0.0;
+		var importeIVA = 0.0;
+
+		importe = $('#appbundle_servicio_importeUnitario').val();
+		porcentaje = $('#appbundle_servicio_porcentajeIVA').val();
+		cuotaIVA = parseFloat(importe) * parseFloat(porcentaje);
+		importeIVA = parseFloat(importe) + parseFloat(cuotaIVA);
+
+		$('#appbundle_servicio_cuotaIVA').val(cuotaIVA);
+		$('#appbundle_servicio_importeIVA').val(importeIVA);
+	}
+	
+</script>
+
+<div class="container">
+	
+	<div class="form_row" >
+		{{form_start (form,{'action':'','method':'POST'})}}
+		{{form_row(form.descripcion)}}
+	</div>
+    <div class="form_row" >
+		{{form_row(form.importeUnitario)}}
+	</div>
+    <div class="form_row " >
+		{{form_row(form.porcentajeIVA)}}
+	</div>
+	<div class="form_row " >
+		{{form_row(form.cuotaIVA)}}
+	</div>
+	<div class="form_row" >
+        {{form_row(form.importeIVA)}}
+	</div>
+	<div class="form_row" >
+		{{ form_end(form) }}
+	</div>
+
+</div>

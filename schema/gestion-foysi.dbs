@@ -195,40 +195,39 @@
 			</fk>
 		</table>
 	</schema>
-	<connector name="foysi-server" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.44-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="gestion-foysi" user="root" sshEnable="true" sshHost="82.223.16.102" sshPort="22" sshUser="root" sshUseKey="false" sshPassword="Su4Fd8qwr8" sshPublicKey="" sshPassphrase="" />
 	<layout name="Default Layout" id="Layout_275af2d" show_relation="columns" >
-		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="765" y="45" />
-		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="405" y="45" />
-		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="165" y="45" />
-		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="990" y="60" />
-		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="945" y="270" />
-		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="705" y="240" />
-		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="825" y="450" />
-		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="360" y="540" />
-		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="45" y="480" />
-		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="270" y="255" />
-		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="465" y="270" />
-		<entity schema="gestion-foysi" name="descuentos" color="c1d8ee" x="75" y="330" />
+		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="768" y="48" />
+		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="400" y="48" />
+		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="160" y="48" />
+		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="992" y="64" />
+		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="944" y="272" />
+		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="704" y="240" />
+		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="832" y="448" />
+		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="352" y="544" />
+		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="48" y="480" />
+		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="464" y="272" />
+		<entity schema="gestion-foysi" name="descuentos" color="c1d8ee" x="80" y="336" />
+		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="272" y="256" />
 		<browser id="Browse_1f34120" name="descuentos" confirm_updates="y" >
 			<browse_table schema="gestion-foysi" entity="descuentos" x="20" y="20" width="408" height="314" />
 		</browser>
-		<browser id="Browse_4d00ab3" name="pedidos" confirm_updates="y" >
-			<browse_table schema="gestion-foysi" entity="pedidos" x="20" y="20" width="774" height="317" />
+		<browser id="Browse_3517ad5" name="pedidos" confirm_updates="y" >
+			<browse_table schema="gestion-foysi" entity="pedidos" x="20" y="20" width="400" height="300" />
 		</browser>
 	</layout>
 	<layout name="Sample Layout with Tools" id="Layout_37cad0e" show_column_type="y" show_relation="columns" >
-		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="285" y="450" />
-		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="1230" y="300" />
-		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="60" y="450" />
-		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="1230" y="75" />
-		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="45" y="255" />
-		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="525" y="270" />
-		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="285" y="270" />
-		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="1020" y="720" />
-		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="285" y="75" />
-		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="765" y="270" />
-		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="1020" y="75" />
-		<callout x="285" y="195" pointer="NO" >
+		<entity schema="gestion-foysi" name="clientes" color="bfd4f5" x="288" y="448" />
+		<entity schema="gestion-foysi" name="conexion" color="c8f5bf" x="1232" y="304" />
+		<entity schema="gestion-foysi" name="estado_pedido" color="bfd4f5" x="64" y="448" />
+		<entity schema="gestion-foysi" name="estado_usuario" color="c8f5bf" x="1232" y="80" />
+		<entity schema="gestion-foysi" name="facturas" color="bfd4f5" x="48" y="256" />
+		<entity schema="gestion-foysi" name="lineas_pedido" color="bfd4f5" x="528" y="272" />
+		<entity schema="gestion-foysi" name="pedidos" color="bfd4f5" x="288" y="272" />
+		<entity schema="gestion-foysi" name="proveedores" color="c1d8ee" x="1024" y="720" />
+		<entity schema="gestion-foysi" name="recibos" color="bfd4f5" x="288" y="80" />
+		<entity schema="gestion-foysi" name="servicios" color="bfd4f5" x="768" y="272" />
+		<entity schema="gestion-foysi" name="usuarios" color="c8f5bf" x="1024" y="80" />
+		<callout x="288" y="192" pointer="NO" >
 			<comment><![CDATA[Double-click any table, column or foreign key to edit, right-click to start one of the tools below.
 Use the Relational Data Browse for simultaneously exploring data from multiple tables.
 All tools will be saved to project file and can be reopen.]]></comment>
@@ -258,13 +257,13 @@ FROM
 			</browse_table>
 		</browser>
 		<query id="Query_3d24c43" name="Sample Query Builder" >
-			<query_table schema="gestion-foysi" name="pedidos" alias="p" x="45" y="45" >
+			<query_table schema="gestion-foysi" name="pedidos" alias="p" x="48" y="48" >
 				<column name="id" />
 				<column name="cliente_id" />
 				<column name="estado_pedido_id" />
 				<column name="fecha" />
 				<column name="observaciones" />
-				<query_table schema="gestion-foysi" name="recibos" alias="r" x="225" y="45" fk="FK_46247D214854653A" type="Inner Join" >
+				<query_table schema="gestion-foysi" name="recibos" alias="r" x="224" y="48" fk="FK_46247D214854653A" type="Inner Join" >
 					<column name="id" />
 					<column name="pedido_id" />
 					<column name="fecha" />

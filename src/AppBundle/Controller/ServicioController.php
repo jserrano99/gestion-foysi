@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Servicio;
 use AppBundle\Form\ServicioType;
 
-
 class ServicioController extends Controller {
 
 	private $sesion;
@@ -32,8 +31,7 @@ class ServicioController extends Controller {
 			return $responseService->getResponse();
 		}
 
-		return $this->render('query.html.twig', array('titulo' => 'SERVICIOS',
-					'rutaadd' => "path('addServicio')",
+		return $this->render('servicio/query.html.twig', array(
 					'datatable' => $datatable,
 		));
 	}
@@ -45,8 +43,6 @@ class ServicioController extends Controller {
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted()) {
-			$Servicio->setImporteIVA($Servicio->getImporteUnitario() * 1.21);
-			$Servicio->setCuotaIVA($Servicio->getImporteUnitario() * 0.21);
 			$EM->persist($Servicio);
 			$EM->flush();
 			$status = "Servicio creado correctamente";
@@ -54,10 +50,10 @@ class ServicioController extends Controller {
 			return $this->redirectToRoute("queryServicio");
 		}
 
-		$params = array("accion" => "I",
+		$params = array("accion" => "NUEVO",
 			"servicio" => $Servicio,
 			"form" => $form->createView());
-		return $this->render("servicio/update.html.twig", $params);
+		return $this->render("servicio/edit.html.twig", $params);
 	}
 
 	public function editAction(Request $request, $id) {
@@ -69,8 +65,6 @@ class ServicioController extends Controller {
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted()) {
-			$Servicio->setImporteIVA($Servicio->getImporteUnitario() * 1.21);
-			$Servicio->setCuotaIVA($Servicio->getImporteUnitario() * 0.21);
 			$EM->persist($Servicio);
 			$EM->flush();
 			$status = "Servicio modificado correctamente";
@@ -78,10 +72,10 @@ class ServicioController extends Controller {
 			return $this->redirectToRoute("queryServicio");
 		}
 
-		$params = array("accion" => "U",
+		$params = array("accion" => "MODIFICACIÓN",
 			"servicio" => $Servicio,
 			"form" => $form->createView());
-		return $this->render("servicio/update.html.twig", $params);
+		return $this->render("servicio/edit.html.twig", $params);
 	}
 
 	public function deleteAction($id) {

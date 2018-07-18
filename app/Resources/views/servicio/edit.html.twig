@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} SERVICIOS **{{accion}}**
+   <a href="{{path("queryServicio")}}" class="btn btn-success">
+       <span class="glyphicon glyphicon-th-list"></span> Volver</a>
+{% endblock %}
+    
+{% block contenido %}
+    <div class="container">
+        {% include 'servicio/form.html.twig' %}
+    </div>
+    <div class="clearfix"> </div>
+{% endblock %}  

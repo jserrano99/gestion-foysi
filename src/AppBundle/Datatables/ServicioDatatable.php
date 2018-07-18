@@ -42,6 +42,7 @@ class ServicioDatatable extends AbstractDatatable {
 			'length_change' => true
 		));
 		$formatter = new \NumberFormatter("es_ES", \NumberFormatter::CURRENCY);
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 2);
 
 
 		$this->columnBuilder

@@ -1,0 +1,130 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} <h3> GESTIÓN DE PEDIDOS-CONSULTA </h3>{% endblock %}
+{% block contenido %}
+    <script>
+        function confirmar(id) {
+            bootbox.confirm("CONFIRMAR LA ELIMINACIÓN DEL PEDIDO",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deletePedido", {"id": id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+
+        function addLinea(pedido_id) {
+            recurso = Routing.generate("addLineaPedido", {"pedido_id": pedido_id}, true);
+            window.open(recurso);
+        }
+
+        function generarFactura(id) {
+            bootbox.confirm("CONFIRMAR GENERACIÓN DE FACTURA",
+                    function (result) {
+                        if (result) {
+                            recurso = Routing.generate("generarFactura", {"pedido_id": id}, true);
+                            window.open(recurso);
+                        }
+                    }
+            );
+        }
+
+        function generarRecibo(id) {
+            recurso = Routing.generate("generarRecibo", {"pedido_id": id}, true);
+            window.open(recurso);
+        }
+
+        function eliminarRecibo(id) {
+            bootbox.confirm("CONFIRMAR LA ELIMINACIÓN DEL RECIBO",
+                    function (result) {
+                        if (result) {
+                            $('#procesando').modal('show');
+                            recurso = Routing.generate("deleteRecibo", {"id": id}, true);
+                            window.location = recurso;
+                        }
+                    }
+            );
+        }
+
+    </script>
+    <div class="container">
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
+        <a href="{{path("addPedido")}}" class="btn btn-success">Nuevo Pedido</a>
+        <hr/>
+        <table class="tabla table" border="1">
+            <thead>
+                <tr class="success">
+                    <th class="text-center text-bold">ID</th>
+                    <th class="text-center text-bold" width = '10%'>Fecha</th>
+                    <th class="text-center text-bold">Descripción</th>
+                    <th class="text-center text-bold">Cliente</th>
+                    <th class="text-center text-bold" width='10%'>Acciones</th>
+                    <th class="text-center text-bold" width='10%'>Factura</th>
+                    <th class="text-center text-bold" width='10%'>Recibo</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidoAll %}
+                    <tr>
+                        <td class="text-center">
+                            <a href="{{path("editPedido",{ "id":pedido.id })}}" >
+                                {{pedido.id}}</a></td>
+                        <td class="text-center">{{pedido.fecha|date('d-m-Y')}}</td>
+                        <td class="text-left">{{pedido.observaciones}}</td>
+
+                        <td class="text-left">
+                            <a href="{{path("editCliente",{ "id":pedido.cliente.id })}}" 
+                               target="_blank">{{pedido.cliente.nombreCompleto}}</a></td>
+                        <td class="text-center" width="9%" >
+                            <button class="glyphicon glyphicon-plus"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Añadir Servicio al Pedido"
+                                    onclick = "addLinea({{pedido.id}})">
+                            </button>
+                            &nbsp
+                            <button class="glyphicon glyphicon-trash"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Eliminar Pedido"
+                                    onclick ="confirmar({{pedido.id}})">
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <button class="glyphicon glyphicon-save-file"
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    title="Generar Factura"
+                                    onclick ="generarFactura({{pedido.id}})">
+                            </button>
+                        </td>
+                        <td class="text-center" >
+                            {% if pedido.factura.id is not defined %}
+                                <button class="glyphicon glyphicon-save-file"
+                                        data-toggle="tooltip" 
+                                        data-placement="bottom" 
+                                        title="Recibo Caja"
+                                        onclick ="generarRecibo({{pedido.id}})">
+                                </button>
+                            {% endif %}
+                            {% if pedido.recibo.id is defined %}
+                                <button class="glyphicon glyphicon-trash"
+                                        data-toggle="tooltip" 
+                                        data-placement="bottom" 
+                                        title="Eliminar Recibo"
+                                        onclick ="eliminarRecibo({{pedido.recibo.id}})">
+                                </button>
+                            {% endif%}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

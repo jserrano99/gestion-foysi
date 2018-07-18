@@ -35,6 +35,12 @@ class Servicio {
      */
     private $importeUnitario;
 
+	/**
+     * @var double
+     *
+     * @ORM\Column(name="porcentajeIVA", type="float", nullable=false)
+     */
+    private $porcentajeIVA;
     /**
      * @var double
      *
@@ -151,5 +157,29 @@ class Servicio {
     public function getCuotaIVA()
     {
         return $this->cuotaIVA;
+    }
+
+    /**
+     * Set porcentajeIVA.
+     *
+     * @param float $porcentajeIVA
+     *
+     * @return Servicio
+     */
+    public function setPorcentajeIVA($porcentajeIVA)
+    {
+        $this->porcentajeIVA = $porcentajeIVA;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeIVA.
+     *
+     * @return float
+     */
+    public function getPorcentajeIVA()
+    {
+        return $this->porcentajeIVA;
     }
 }

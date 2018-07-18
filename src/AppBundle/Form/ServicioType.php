@@ -7,8 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class ServicioType extends AbstractType {
 
@@ -17,13 +18,27 @@ class ServicioType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('descripcion', TextType::class, array(
-                    "label" => 'descripcion',
+                    "label" => 'Descripcion del Servicio',
                     "required" => true,
                     "attr" => array("class" => "form-control")))
-                ->add('importeUnitario', MoneyType::class, array(
+                ->add('importeUnitario', NumberType::class, array(
                     "label" => 'Importe Unitario (SIN IVA)',
                     "required" => true,
-                    "attr" => array("class" => " form-control")))
+                    "attr" => array("class" => " form-control muycorto")))
+				->add('porcentajeIVA', ChoiceType::class, array(
+                    "label" => 'Porcentaje IVA',
+                    'choices' => array('21%' => 0.21,'SIN IVA' => 0),
+                    'required' => true,
+                    'disabled' => false,
+                    "attr" => array("class" => "form-control muycorto ")))
+				->add('cuotaIVA', NumberType::class, array(
+                    "label" => 'Cuota IVA',
+                    "required" => true,
+                    "attr" => array("class" => " form-control muycorto")))
+				->add('importeIVA', NumberType::class, array(
+                    "label" => 'Importe Unitario (SIN IVA)',
+                    "required" => true,
+                    "attr" => array("class" => " form-control muycorto")))
                 ->add('Guardar', SubmitType::class, array(
                     "attr" => array("class" => "form-submit btn btn-t btn-success")))
         ;
