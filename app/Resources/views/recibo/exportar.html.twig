@@ -8,6 +8,10 @@
     <script>
         $(document).ready(function () {
 
+            $('#appbundle_filtroFecha_trimestre').selectmenu();
+            
+            $("#tabs").tabs();
+
             $('#appbundle_filtroFecha_rangoFecha').daterangepicker({
                 'locale': {'format': 'DD/MM/YYYY',
                     'applyLabel': 'Aplicar',
@@ -16,13 +20,62 @@
             });
 
             $('#appbundle_filtroFecha_rangoFecha').on('apply.daterangepicker', function (ev, picker) {
-                $('#appbundle_filtroFecha_startDate').val(picker.startDate.format('DD/MM/YYYY'));
-                $('#appbundle_filtroFecha_endDate').val(picker.endDate.format('DD/MM/YYYY'));
+                $('#appbundle_filtroFecha_startDate').val(picker.startDate.format('YYYY-MM-DD'));
+                $('#appbundle_filtroFecha_endDate').val(picker.endDate.format('YYYY-MM-DD'));
+            });
 
+            $('#appbundle_filtroFecha_ejercicio').change(function () {
+                var ejercicio = $('#appbundle_filtroFecha_ejercicio').val();
+                var recurso = Routing.generate("ajaxEjercicio", {"id": ejercicio}, true);
+                $.ajax({
+                    type: "POST",
+                    url: recurso,
+                    success: function (data, status, xhr) {
+
+                        $('#appbundle_filtroFecha_startDate').val(data.fcInicio);
+                        $('#appbundle_filtroFecha_endDate').val(data.fcFin);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    }
+                });
+            });
+
+
+            $('#appbundle_filtroFecha_ejercicio2').change(function () {
+                var ejercicio = $('#appbundle_filtroFecha_ejercicio2').val();
+                var recurso = Routing.generate("ajaxSelectTrimestre", {"ejercicio_id": ejercicio}, true);
+                $.ajax({
+                    type: "POST",
+                    url: recurso,
+                    success: function (data, status, xhr) {
+                        $.each(data, function (key, value) {
+                            $('#appbundle_filtroFecha_trimestre ').append("<option value='"+value.id+"'>"+value.descripcion+"</option>");
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    }
+                });
+
+            });
+            $('#appbundle_filtroFecha_trimestre').change(function () {
+                var trimestre = $('#appbundle_filtroFecha_trimestre').val();
+                var recurso = Routing.generate("ajaxTrimestre", {"id": trimestre}, true);
+                $.ajax({
+                    type: "POST",
+                    url: recurso,
+                    success: function (data, status, xhr) {
+                        $('#appbundle_filtroFecha_startDate').val(data.fcInicio);
+                        $('#appbundle_filtroFecha_endDate').val(data.fcFin);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    }
+                });
             });
 
             $('#appbundle_filtroFecha_Guardar').click(function () {
-                alert('Guardar');
             });
 
         });
@@ -33,27 +86,40 @@
     <div class="container">
         {{form_start (form,{'action':'','method':'POST'})}}
         {{form_errors(form)}}
-        <div class="form-row mismalinea"> 
-            {{form_row(form.rangoFecha)}}
+
+        <div id="tabs" class="pestana container">
+            <ul>
+                <li><a id="tab1" href="#ejercicio">Ejercicio</a></li>
+                <li><a id="tab2" href="#rango">Rango de Fechas</a></li>
+                <li><a id="tab3" href="#trimestre">Trimestre</a></li>
+
+            </ul>
+            <div id="rango">
+                <div class="form-row mismalinea"> 
+                    {{form_row(form.rangoFecha)}}
+                </div>
+            </div>
+            <div id="ejercicio">
+                <div class="form-row mismalinea">
+                    {{form_row(form.ejercicio)}}
+                </div>
+            </div>
+            <div id="trimestre">
+                <div class="form-row mismalinea">
+                    {{form_row(form.ejercicio2)}}
+                </div>
+                <div class="form-row mismalinea">
+                    {{form_row(form.trimestre)}}
+                </div>
+            </div>
+            <div class="clear-fix"></div>
         </div>
-        <div class="form-row mismalinea" >
-            {{form_row(form.startDate)}}
-        </div>
-        <div class="form-row mismalinea">
-            {{form_row(form.endDate)}}
-        </div>
-        <div class="form-row mismalinea">
-            {{form_row(form.ejercicio)}}
-        </div>
-        <div class="form-row mismalinea">
-            {{form_row(form.trimestre)}}
-        </div>
-        <div class="clear-fix"></div>
         <div class="form-row mismalinea"> 
             {{form_row(form.Guardar)}}
         </div>
 
+        {{form_row(form.startDate)}}
+        {{form_row(form.endDate)}}
         {{form_end (form)}}
     </div>
-
 {% endblock %}

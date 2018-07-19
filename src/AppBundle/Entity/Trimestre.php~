@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Ejercicio
  *
  * @ORM\Table(name="trimestres")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TrimestreRepository")
+ * @ORM\Entity
  */
 class Trimestre {
 
@@ -127,32 +127,4 @@ class Trimestre {
         return $this->fcFin;
     }
 
-
-    /**
-     * Set ejercicio.
-     *
-     * @param \AppBundle\Entity\Ejercicio|null $ejercicio
-     *
-     * @return Trimestre
-     */
-    public function setEjercicio(\AppBundle\Entity\Ejercicio $ejercicio = null)
-    {
-        $this->ejercicio = $ejercicio;
-
-        return $this;
-    }
-
-    /**
-     * Get ejercicio.
-     *
-     * @return \AppBundle\Entity\Ejercicio|null
-     */
-    public function getEjercicio()
-    {
-        return $this->ejercicio;
-    }
-    
-    public function __toString() {
-        return $this->descripcion;
-    }
 }

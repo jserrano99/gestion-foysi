@@ -9,12 +9,7 @@ use AppBundle\Entity\Recibo;
 use AppBundle\Reports\ImpresoRecibo;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use ZipArchive;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ReciboController extends Controller {
 
@@ -50,7 +45,7 @@ class ReciboController extends Controller {
         $EjercicioActual_repo = $EM->getRepository("AppBundle:EjercicioActual");
         $EjercicioActual = $EjercicioActual_repo->find(1);
         $Ejercicio = $EjercicioActual->getEjercicio();
-        
+
         $Pedido = $Pedido_repo->find($pedido_id);
         if ($Pedido->getRecibo() != null) {
             $params = array("id" => $Pedido->getRecibo()->getId());
@@ -114,45 +109,102 @@ class ReciboController extends Controller {
 
 
         if ($form->isSubmitted()) {
-            
+            $fcini = $form->get('startDate')->getData();
+            $fcfin = $form->get('endDate')->getData();
+            dump($fcini);
+            dump($fcfin);
+            $EntityManager = $this->getDoctrine()->getManager();
+            $Recibo_repo = $EntityManager->getRepository("AppBundle:Recibo");
+            $ReciboAll = $Recibo_repo->createQueryBuilder('u')
+                            ->where('u.fecha between :fcini and :fcfin')
+                            ->setParameter('fcini', $fcini)
+                            ->setParameter('fcfin', $fcfin)
+                            ->getQuery()->getResult();
+            dump($ReciboAll);
+            //die();
+            return $this->exportarRecibo($ReciboAll);
         }
         return $this->render('recibo/exportar.html.twig', array("form" => $form->createView()));
     }
 
-    public function exportarRecibo() {
-        $EntityManager = $this->getDoctrine()->getManager();
-        $Recibo_repo = $EntityManager->getRepository("AppBundle:Recibo");
-        $ReciboAll = $Recibo_repo->findAll();
+    public function exportarRecibo($ReciboAll) {
 
         $PHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $PHPExcel->setActiveSheetIndex(0);
 
         $this->insertarImagen('img/mamiya.jpg', $sheet);
         $antclase = "";
-        $estilo = ['font' => ['bold' => true,
-                'size' => 30,
+        $estiloTitulo = ['font' => ['bold' => true,
+                'size' => 20,
                 'name' => 'Verdana',
-                'bold' => TRUE,
                 'color' => ['rgb' => '190707']]];
 
         $estiloCentrado = ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER]
-        ];
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER]];
 
 
-        $sheet->setCellValue("B5", 'RELACIÓN DE RECIBOS');
-        $sheet->mergeCells('B5:H5');
-        $sheet->getStyle('B5:H5')->applyFromArray($estilo);
-        $sheet->getStyle('B5:H5')->applyFromArray($estiloCentrado);
-        $fila = 8;
+        $estiloCabecera = ['font' => ['bold' => true,
+                'size' => 10,
+                'name' => 'Verdana',
+                'color' => ['rgb' => '190707']],
+            ''];
 
-        foreach ($ReciboAll as $row) {
-            
+        $fuenteNormal = array('bold' => false,
+            'size' => 10,
+            'name' => 'Verdana',
+            'color' => array('rgb' => '190707'));
+
+        $fuenteBold = array('bold' => true,
+            'size' => 10,
+            'name' => 'Verdana',
+            'color' => array('rgb' => '190707'));
+
+        $estiloMoneda = array('font' => $fuenteNormal,
+            'code' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_00);
+        $estiloFecha = array('font' => $fuenteNormal,
+            'code' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+
+        $sheet->setCellValue("D3", 'RELACIÓN DE RECIBOS');
+        $sheet->mergeCells('D3:J3');
+        $sheet->getStyle('D3:J3')->applyFromArray($estiloTitulo);
+
+        $row = 8;
+        $sheet->setCellValueByColumnAndRow(2, $row, 'Ejercicio');
+        $sheet->setCellValueByColumnAndRow(3, $row, 'Nº Recibo');
+        $sheet->setCellValueByColumnAndRow(4, $row, 'Fecha');
+        $sheet->setCellValueByColumnAndRow(5, $row, 'Descripción');
+        $sheet->setCellValueByColumnAndRow(6, $row, 'Total Pedido');
+        $sheet->setCellValueByColumnAndRow(7, $row, 'Descuento');
+        $sheet->setCellValueByColumnAndRow(8, $row, 'Base Imponible');
+        $sheet->setCellValueByColumnAndRow(9, $row, 'Cuota IVA');
+        $sheet->setCellValueByColumnAndRow(10, $row, 'Importe Total');
+        $rango = 'B' . $row . ':J' . $row;
+        $sheet->getStyle($rango)->applyFromArray($estiloCabecera);
+
+        for ($col = 'B'; $col < 'L'; $col++) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
         }
+        $row++;
+        foreach ($ReciboAll as $Recibo) {
+            $sheet->setCellValueByColumnAndRow(2, $row, $Recibo->getEjercicio()->getAnyo());
+            $sheet->setCellValueByColumnAndRow(3, $row, $Recibo->getNumero());
+            
+            $sheet->setCellValueByColumnAndRow(4, $row, $Recibo->getFecha()->format('d/m/Y'));
+            $sheet->setCellValueByColumnAndRow(5, $row, $Recibo->getPedido()->getObservaciones());
+            $sheet->setCellValueByColumnAndRow(6, $row, $Recibo->getPedido()->getTotalServicio());
+            $sheet->setCellValueByColumnAndRow(7, $row, $Recibo->getPedido()->getTotalDescuento());
+            $sheet->setCellValueByColumnAndRow(8, $row, $Recibo->getPedido()->getBaseImponible());
+            $sheet->setCellValueByColumnAndRow(9, $row, $Recibo->getPedido()->getCuotaIVA());
+            $sheet->setCellValueByColumnAndRow(8, $row, $Recibo->getPedido()->getTotalPedido());
+            $row++;
+        }
+        
+        $rango = 'F9:J' . $row;
+        $sheet->getStyle($rango)->applyFromArray($estiloMoneda);
 
         //$this->Ajustar($sheet);        
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($PHPExcel);
-        $filename = 'Recibo.xlsx';
+        $filename = 'Recibos.xlsx';
         $writer->save($filename);
 
         $response = new Response();

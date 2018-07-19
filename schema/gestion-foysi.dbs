@@ -248,28 +248,25 @@
 			</fk>
 		</table>
 	</schema>
-	<connector name="localhost-mac" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.40-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="foysi" user="root" />
+	<connector name="localhost" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.40-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="foysi" user="root" />
 	<layout name="Default Layout" id="Layout_275af2d" joined_routing="y" show_column_type="y" show_schema_name="y" show_relation="columns" >
-		<entity schema="foysi" name="conexion" color="c1d8ee" x="48" y="416" />
-		<entity schema="foysi" name="pedidos" color="c1d8ee" x="656" y="352" />
-		<entity schema="foysi" name="usuarios" color="c1d8ee" x="80" y="48" />
-		<entity schema="foysi" name="estado_usuario" color="c1d8ee" x="304" y="112" />
-		<entity schema="foysi" name="facturas" color="c1d8ee" x="448" y="224" />
-		<entity schema="foysi" name="descuentos" color="c1d8ee" x="896" y="208" />
-		<entity schema="foysi" name="estado_pedido" color="c1d8ee" x="720" y="176" />
-		<entity schema="foysi" name="lineas_pedido" color="c1d8ee" x="864" y="352" />
-		<entity schema="foysi" name="servicios" color="c1d8ee" x="1072" y="384" />
-		<entity schema="foysi" name="proveedores" color="c1d8ee" x="1008" y="48" />
-		<entity schema="foysi" name="ejercicio_actual" color="c1d8ee" x="128" y="640" />
-		<entity schema="foysi" name="trimestres" color="c1d8ee" x="288" y="624" />
-		<entity schema="foysi" name="recibos" color="c1d8ee" x="448" y="512" />
-		<entity schema="foysi" name="clientes" color="c1d8ee" x="1136" y="592" />
-		<entity schema="foysi" name="ejercicios" color="c1d8ee" x="272" y="400" />
+		<entity schema="foysi" name="conexion" color="c1d8ee" x="45" y="420" />
+		<entity schema="foysi" name="pedidos" color="c1d8ee" x="660" y="345" />
+		<entity schema="foysi" name="usuarios" color="c1d8ee" x="75" y="45" />
+		<entity schema="foysi" name="estado_usuario" color="c1d8ee" x="300" y="105" />
+		<entity schema="foysi" name="facturas" color="c1d8ee" x="450" y="225" />
+		<entity schema="foysi" name="descuentos" color="c1d8ee" x="900" y="210" />
+		<entity schema="foysi" name="estado_pedido" color="c1d8ee" x="720" y="180" />
+		<entity schema="foysi" name="lineas_pedido" color="c1d8ee" x="870" y="345" />
+		<entity schema="foysi" name="servicios" color="c1d8ee" x="1065" y="390" />
+		<entity schema="foysi" name="proveedores" color="c1d8ee" x="1005" y="45" />
+		<entity schema="foysi" name="ejercicio_actual" color="c1d8ee" x="135" y="645" />
+		<entity schema="foysi" name="trimestres" color="c1d8ee" x="285" y="630" />
+		<entity schema="foysi" name="recibos" color="c1d8ee" x="450" y="510" />
+		<entity schema="foysi" name="clientes" color="c1d8ee" x="1140" y="585" />
+		<entity schema="foysi" name="ejercicios" color="c1d8ee" x="270" y="405" />
 		<script name="Sql_Editor" id="Editor_4c7f206" language="SQL" >
 			<string><![CDATA[update recibos  set ejercicio_id = 1]]></string>
 		</script>
-		<browser id="Browse_5eee41" name="ejercicios" confirm_updates="y" >
-			<browse_table schema="foysi" entity="ejercicios" x="20" y="20" width="400" height="300" />
-		</browser>
 	</layout>
 </project>

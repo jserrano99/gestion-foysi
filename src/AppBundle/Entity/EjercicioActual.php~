@@ -1,0 +1,34 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ejercicio
+ *
+ * @ORM\Table(name="ejercicio_actual")
+ * @ORM\Entity
+ */
+class EjercicioActual {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+     /**
+     * @var Ejercicio
+     *
+     * @ORM\ManyToOne(targetEntity="Ejercicio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ejercicio_id", referencedColumnName="id")
+     * }) 
+     */
+    private $ejercicio;
+
+}

@@ -2,25 +2,6 @@ app_homepage:
     path:     /
     defaults: { _controller: AppBundle:App:index}
 
-editAsignacionDirecta:
-    path:   /asignacionDirecta/edit/{id}
-    defaults: { _controller: AppBundle:AsignacionDirecta:edit}
-addAsignacionDirecta:
-    path:   /asignacionDirecta/add
-    defaults: { _controller: AppBundle:AsignacionDirecta:add}
-queryAsignacionDirecta:
-    path:   /asignacionDirecta/query
-    defaults: { _controller: AppBundle:AsignacionDirecta:query}
-
-queryExcepcion:
-    path:   /excepcion/query
-    defaults: { _controller: AppBundle:Excepcion:query}
-editExcepcion:
-    path:   /excepcion/edit/{id}
-    defaults: { _controller: AppBundle:Excepcion:edit}
-addExcepcion:
-    path:   /excepcion/add/
-    defaults: { _controller: AppBundle:Excepcion:add}
 
 login:
     path: /login
@@ -155,6 +136,22 @@ addLineaPedido:
 deleteLineaPedido:
     path:   /lineaPedido/delete/{id}
     defaults: { _controller: AppBundle:LineaPedido:delete}
+    options:
+        expose: true
+
+ajaxEjercicio:
+    path:   /ejercicio/queryAjax/{id}
+    defaults: { _controller: AppBundle:Ejercicio:queryAjax}
+    options:
+        expose: true
+ajaxTrimestre:
+    path:   /trimestre/queryAjax/{id}
+    defaults: { _controller: AppBundle:Trimestre:queryAjax}
+    options:
+        expose: true
+ajaxSelectTrimestre:
+    path:   /trimestre/selectAjax/{ejercicio_id}
+    defaults: { _controller: AppBundle:Trimestre:selectAjax}
     options:
         expose: true
 

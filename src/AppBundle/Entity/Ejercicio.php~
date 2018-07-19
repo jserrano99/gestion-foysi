@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Ejercicio
  *
- * @ORM\Table(name="trimestres")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TrimestreRepository")
+ * @ORM\Table(name="ejercicios")
+ * @ORM\Entity
  */
-class Trimestre {
+class Ejercicio {
 
     /**
      * @var integer
@@ -42,22 +42,21 @@ class Trimestre {
      */
     private $fcFin;
 
+
     /**
-     * @var Ejercicio
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Ejercicio")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ejercicio_id", referencedColumnName="id")
-     * }) 
+     * @ORM\Column(name="anyo", type="integer", nullable=false)
      */
-    private $ejercicio;
+    private $anyo;
 
     /**
      * Get id.
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -68,7 +67,8 @@ class Trimestre {
      *
      * @return Ejercicio
      */
-    public function setDescripcion($descripcion) {
+    public function setDescripcion($descripcion)
+    {
         $this->descripcion = $descripcion;
 
         return $this;
@@ -79,7 +79,8 @@ class Trimestre {
      *
      * @return string
      */
-    public function getDescripcion() {
+    public function getDescripcion()
+    {
         return $this->descripcion;
     }
 
@@ -90,7 +91,8 @@ class Trimestre {
      *
      * @return Ejercicio
      */
-    public function setFcInicio($fcInicio) {
+    public function setFcInicio($fcInicio)
+    {
         $this->fcInicio = $fcInicio;
 
         return $this;
@@ -101,7 +103,8 @@ class Trimestre {
      *
      * @return \DateTime
      */
-    public function getFcInicio() {
+    public function getFcInicio()
+    {
         return $this->fcInicio;
     }
 
@@ -112,7 +115,8 @@ class Trimestre {
      *
      * @return Ejercicio
      */
-    public function setFcFin($fcFin) {
+    public function setFcFin($fcFin)
+    {
         $this->fcFin = $fcFin;
 
         return $this;
@@ -123,36 +127,8 @@ class Trimestre {
      *
      * @return \DateTime
      */
-    public function getFcFin() {
+    public function getFcFin()
+    {
         return $this->fcFin;
-    }
-
-
-    /**
-     * Set ejercicio.
-     *
-     * @param \AppBundle\Entity\Ejercicio|null $ejercicio
-     *
-     * @return Trimestre
-     */
-    public function setEjercicio(\AppBundle\Entity\Ejercicio $ejercicio = null)
-    {
-        $this->ejercicio = $ejercicio;
-
-        return $this;
-    }
-
-    /**
-     * Get ejercicio.
-     *
-     * @return \AppBundle\Entity\Ejercicio|null
-     */
-    public function getEjercicio()
-    {
-        return $this->ejercicio;
-    }
-    
-    public function __toString() {
-        return $this->descripcion;
     }
 }
