@@ -181,3 +181,13 @@ exportarRecibo:
     defaults: { _controller: AppBundle:Recibo:exportar}
     options:
         expose: true
+ajaxExportarRecibo:
+    path:   /recibo/ajaxExportar/{fcini}/{fcfin}
+    defaults: { _controller: AppBundle:Recibo:ajaxExportar}
+    options:
+        expose: true
+finExportarRecibo:
+    path:   /recibo/finExportar/
+    defaults: { _controller: AppBundle:Recibo:finExportar}
+    options:
+        expose: true

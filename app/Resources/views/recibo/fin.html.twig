@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %} 
+{% block titulo %} RECIBOS **DESCARGA**
+    <a href="{{path('queryRecibo')}}" class="btn btn-success">
+        <span class="glyphicon glyphicon-th-list"></span> Volver</a>
+    {% endblock %}
+    {% block contenido %}
+    <script>
+        $(function() {
+            
+        });
+        function descarga();
+    </script>
+    <div id="fin" align="center" class="container">
+        <img src={{asset('img/Excel_2010_23622.png')}} ></img>
+        <h2><span>Fichero generado pulse para descargar</span></h2>
+          <input type="button" 
+               class="btn btn-lg btn-warning" value="Descargar" 
+               onClick="descarga({{fichero}})">
+    </div>
+{% endblock %}

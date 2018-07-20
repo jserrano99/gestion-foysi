@@ -20,14 +20,24 @@ class FiltroFechaType extends AbstractType {
         $factory = $builder->getFormFactory();
 
         
-        $builder->addEventSubscriber(new EjercicioEventSuscriber())
-                ->addEventSubscriber(new TrimestreEventSuscriber())
-                ->add('rangoFecha', TextType::class, array(
+        $builder->add('rangoFecha', TextType::class, array(
                     "label" => 'Rango de Fechas',
                     "required" => false,
                     "attr" => array("class" => "corto form-control")))
-                ->add('startDate', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class)
-                ->add('endDate', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class)
+                ->add('startDate', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class,array('required' => true))
+                ->add('endDate', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class,array('required' => true))
+                ->add('ejercicio2', EntityType::class, array(
+                    'label' => 'Ejercicio',
+                    'class' => 'AppBundle:Ejercicio',
+                    'required' => false,
+                    'placeholder' => ' Seleccione Ejercicio ... ',
+                    'attr' => array("class" => "medio form-control")))
+                ->add('trimestre', EntityType::class, array(
+                    'label' => 'Trimestre',
+                    'class' => 'AppBundle:Trimestre',
+                    'required' => false,
+                    'placeholder' => ' Seleccione Trimestre ... ',
+                    'attr' => array("class" => "medio form-control")))
                 ->add('ejercicio', EntityType::class, array(
                     'label' => 'Ejercicio',
                     'class' => 'AppBundle:Ejercicio',

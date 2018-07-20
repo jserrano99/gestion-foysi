@@ -107,27 +107,45 @@ class ReciboController extends Controller {
         $form = $this->createForm(\AppBundle\Form\FiltroFechaType::class);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted()) {
-            $fcini = $form->get('startDate')->getData();
-            $fcfin = $form->get('endDate')->getData();
-            dump($fcini);
-            dump($fcfin);
-            $EntityManager = $this->getDoctrine()->getManager();
-            $Recibo_repo = $EntityManager->getRepository("AppBundle:Recibo");
-            $ReciboAll = $Recibo_repo->createQueryBuilder('u')
-                            ->where('u.fecha between :fcini and :fcfin')
-                            ->setParameter('fcini', $fcini)
-                            ->setParameter('fcfin', $fcfin)
-                            ->getQuery()->getResult();
-            dump($ReciboAll);
-            //die();
-            return $this->exportarRecibo($ReciboAll);
+            if ($form->get('startDate')->getData() != '') {
+                $filename = 'recibos.xlsx';
+                $response = new Response();
+                $dispositionHeader = $response->headers->makeDisposition(
+                        ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename
+                );
+
+                $response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+                $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                $response->headers->set('Pragma', 'public');
+                $response->headers->set('Cache-Control', 'max-age=1');
+                $response->setContent(file_get_contents($filename));
+
+                return $response;
+            } else {
+                $this->sesion->getFlashBag()->add("status", "Error debe haber al menos una selección ");
+                return $this->render('recibo/exportar.html.twig', array("form" => $form->createView()));
+            }
+        } else {
+            return $this->render('recibo/exportar.html.twig', array("form" => $form->createView()));
         }
-        return $this->render('recibo/exportar.html.twig', array("form" => $form->createView()));
     }
 
-    public function exportarRecibo($ReciboAll) {
+    public function finExportarAction(Request $request) {
+
+
+        return $this->render('recibo/fin.html.twig');
+    }
+
+    public function ajaxExportarAction($fcini, $fcfin) {
+
+        $EntityManager = $this->getDoctrine()->getManager();
+        $Recibo_repo = $EntityManager->getRepository("AppBundle:Recibo");
+        $ReciboAll = $Recibo_repo->createQueryBuilder('u')
+                        ->where('u.fecha between :fcini and :fcfin')
+                        ->setParameter('fcini', $fcini)
+                        ->setParameter('fcfin', $fcfin)
+                        ->getQuery()->getResult();
 
         $PHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $PHPExcel->setActiveSheetIndex(0);
@@ -160,7 +178,7 @@ class ReciboController extends Controller {
             'color' => array('rgb' => '190707'));
 
         $estiloMoneda = array('font' => $fuenteNormal,
-            'code' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_00);
+            'code' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_EUR);
         $estiloFecha = array('font' => $fuenteNormal,
             'code' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 
@@ -188,36 +206,54 @@ class ReciboController extends Controller {
         foreach ($ReciboAll as $Recibo) {
             $sheet->setCellValueByColumnAndRow(2, $row, $Recibo->getEjercicio()->getAnyo());
             $sheet->setCellValueByColumnAndRow(3, $row, $Recibo->getNumero());
-            
             $sheet->setCellValueByColumnAndRow(4, $row, $Recibo->getFecha()->format('d/m/Y'));
             $sheet->setCellValueByColumnAndRow(5, $row, $Recibo->getPedido()->getObservaciones());
             $sheet->setCellValueByColumnAndRow(6, $row, $Recibo->getPedido()->getTotalServicio());
             $sheet->setCellValueByColumnAndRow(7, $row, $Recibo->getPedido()->getTotalDescuento());
             $sheet->setCellValueByColumnAndRow(8, $row, $Recibo->getPedido()->getBaseImponible());
             $sheet->setCellValueByColumnAndRow(9, $row, $Recibo->getPedido()->getCuotaIVA());
-            $sheet->setCellValueByColumnAndRow(8, $row, $Recibo->getPedido()->getTotalPedido());
+            $sheet->setCellValueByColumnAndRow(10, $row, $Recibo->getPedido()->getTotalPedido());
             $row++;
         }
-        
-        $rango = 'F9:J' . $row;
-        $sheet->getStyle($rango)->applyFromArray($estiloMoneda);
 
+        $formatoCondicional = new \PhpOffice\PhpSpreadsheet\Style\Conditional();
+        $formatoCondicional->setConditionType(\PhpOffice\PhpSpreadsheet\Style\Conditional::CONDITION_CELLIS);
+        $formatoCondicional->setOperatorType(\PhpOffice\PhpSpreadsheet\Style\Conditional::OPERATOR_EQUAL);
+        $formatoCondicional->addCondition('0');
+        $formatoCondicional->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+        $row++;
+        $rango = 'F9:J' . $row;
+        $sheet->getStyle($rango)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+        $sheet->getStyle($rango)->setConditionalStyles(array($formatoCondicional));
+        $rango = 'B9:D' . $row;
+        $row--;
+        $sheet->getStyle($rango)->applyFromArray($estiloCentrado);
+        $sheet->setCellValueByColumnAndRow(6, $row+1, '=SUM(F9:F'.$row.')');
+        $sheet->setCellValueByColumnAndRow(7, $row+1, '=SUM(G9:G'.$row.')');
+        $sheet->setCellValueByColumnAndRow(8, $row+1, '=SUM(H9:H'.$row.')');
+        $sheet->setCellValueByColumnAndRow(9, $row+1, '=SUM(I9:I'.$row.')');
+        $sheet->setCellValueByColumnAndRow(10, $row+1, '=SUM(J9:J'.$row.')');
+        
+        
         //$this->Ajustar($sheet);        
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($PHPExcel);
-        $filename = 'Recibos.xlsx';
+        $filename = 'recibos.xlsx';
         $writer->save($filename);
 
         $response = new Response();
 
-        $dispositionHeader = $response->headers->makeDisposition(
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename
-        );
+        $response->setContent(json_encode($filename));
+        $response->headers->set("Content-type", "application/json");
 
-        $response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
-        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Pragma', 'public');
-        $response->headers->set('Cache-Control', 'max-age=1');
-        $response->setContent(file_get_contents($filename));
+//        $dispositionHeader = $response->headers->makeDisposition(
+//                ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename
+//        );
+//
+//        $response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+//        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//        $response->headers->set('Pragma', 'public');
+//        $response->headers->set('Cache-Control', 'max-age=1');
+//        $response->setContent(file_get_contents($filename));
 
         return $response;
     }
@@ -231,8 +267,8 @@ class ReciboController extends Controller {
         $objDrawing->setImageResource($gdImage);
         $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_JPEG);
         $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
-        $objDrawing->setHeight(155);
-        $objDrawing->setWidth(140);
+        $objDrawing->setHeight(150);
+        $objDrawing->setWidth(135);
 
         $objDrawing->setWorksheet($sheet);
 
