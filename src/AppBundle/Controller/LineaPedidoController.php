@@ -40,7 +40,7 @@ class LineaPedidoController extends Controller {
 				$LineaPedido->setDescuento(0);
 			}
 			$LineaPedido->setBaseImponible($LineaPedido->getTotalServicio() - $LineaPedido->getDescuento());
-			$LineaPedido->setCuotaIVA($LineaPedido->getBaseImponible() * 0.21);
+			$LineaPedido->setCuotaIVA($LineaPedido->getServicio()->getCuotaIva()* $LineaPedido->getUnidades());
 			$LineaPedido->setTotalLinea($LineaPedido->getBaseImponible() + $LineaPedido->getCuotaIVA());
 
 			$EM->persist($LineaPedido);

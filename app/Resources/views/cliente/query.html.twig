@@ -1,10 +1,16 @@
 {% extends "layout.html.twig" %} 
 {% block titulo %} CLIENTES **CONSULTA** 
-		<a href="{{path('addCliente')}}" class="btn btn-success">
-			<span class="glyphicon glyphicon-new-window"></span> Nuevo Cliente</a>
-{% endblock %}
-{% block contenido %}
+	<a href="{{path('addCliente')}}" class="btn btn-success">
+		<span class="glyphicon glyphicon-new-window"></span> Nuevo Cliente</a>
+	{% endblock %}
+	{% block contenido %}
+
 	<div class="container">
+		{% for message in app.session.flashbag().get('status') %}
+			<div class="alert alert-success">
+				{{message}}
+			</div>
+		{% endfor %}
         {{ sg_datatables_render(datatable) }}
     </div>
 {% endblock %}

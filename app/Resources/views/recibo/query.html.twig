@@ -1,8 +1,14 @@
 {% extends "layout.html.twig" %} 
 {% block titulo %}GESTIÓN DE RECIBOS-CONSULTA 
-		<a href="{{path("exportarRecibo")}}" class="btn btn-success">Exportar Excel</a>
+		<a href="{{path("exportarRecibo")}}" class="btn btn-success">
+			<span class="glyphicon glyphicon-cloud-download"></span>   Exportar Excel</a>
 {% endblock %}
 {% block contenido %}
+	{% for message in app.session.flashbag().get('status') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
 	<div class="container">
         {{ sg_datatables_render(datatable) }}
     </div>
